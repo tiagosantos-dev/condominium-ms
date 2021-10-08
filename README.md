@@ -6,7 +6,7 @@
 
 
 ## Project architecture
-![Web 1](https://github.com/tiagosantos-dev/condominium-ms/blob/main/Arquitetura.png)
+![Web 1](https://github.com/tiagosantos-dev/condominium-ms/blob/main/architecture.png)
 
 
 # Technologies used

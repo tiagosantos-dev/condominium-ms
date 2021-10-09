@@ -6,7 +6,11 @@
 
 
 ## Project architecture
-![Web 1](https://github.com/tiagosantos-dev/condominium-ms/blob/main/architecture.png)
+![Web 1](https://github.com/tiagosantos-dev/condominium-ms/blob/main/resources/architecture.png)
+
+
+## Resident UML
+![Web 1](https://github.com/tiagosantos-dev/condominium-ms/blob/main/resources/resident.png)
 
 
 # Technologies used

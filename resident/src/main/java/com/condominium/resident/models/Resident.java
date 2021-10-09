@@ -1,9 +1,11 @@
 package com.condominium.resident.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +29,12 @@ public class Resident implements Serializable{
     @OneToOne
 	private Point point;
 	
+    @OneToMany(
+    		  cascade = CascadeType.ALL,
+    	        orphanRemoval = true)
+    private List<Associate> associates = new ArrayList<>();
+    
+    
 	public Resident(){}
 
 	public UUID getId() {

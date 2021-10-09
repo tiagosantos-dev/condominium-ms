@@ -24,6 +24,12 @@ public class Person implements Serializable{
 	
 	private LocalDate birthDate;
 	
+	private String email;
+	
+	private String phoneNumber;
+	
+	private String genre;
+	
 	public Person(){}
 
 	public UUID getId() {
@@ -58,4 +64,29 @@ public class Person implements Serializable{
 		this.birthDate = birthDate;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+	
 }

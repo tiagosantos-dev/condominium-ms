@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.condominium.resident.models.Permision;
 import com.condominium.resident.models.Resident;
 import com.condominium.resident.services.resident.ResidentService;
 
@@ -52,4 +53,19 @@ public class ResidentController {
 			return ResponseEntity.ok(residentService.getById(id));
 		
 	}
+	
+	@GetMapping("/permission/all")
+	public ResponseEntity<Resident> getAllPermission(@PathVariable UUID id){
+		// CALL CONCIERGE SERVICE HERE TO GET ALL PERMISSIONS FROM THIS RESIDENT
+			return ResponseEntity.ok(residentService.getById(id));
+		
+	}
+	
+	@PutMapping("/authorize")
+	public ResponseEntity<Resident> setAuthorize(@RequestBody Permision permision){
+		// CALL CONCIERGE SERVICE HERE TO set PERMISSIONS FROM THIS RESIDENT
+			return null;
+		
+	}
+	
 }

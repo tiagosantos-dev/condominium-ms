@@ -10,7 +10,7 @@ spring:
     username: sa
     password: 
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:~/h2db
+    url: jdbc:h2:file:~/resident-service
   jpa:
     hibernate:
       ddl-auto: create-drop

@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.condominium.ordinance.clients.ResidentClient;
+import com.condominium.ordinance.clients.VisitorClient;
 import com.condominium.ordinance.models.Permision;
+import com.condominium.ordinance.models.PermissionResponse;
 import com.condominium.ordinance.models.Resident;
 import com.condominium.ordinance.models.TypeRequestor;
+import com.condominium.ordinance.models.Visitor;
 import com.condominium.ordinance.services.permission.PermissionService;
 
 @RestController
@@ -29,25 +32,40 @@ public class PermissionController {
 	@Autowired
 	private ResidentClient residentClient;
 	
+	
+	@Autowired
+	private VisitorClient visitorClient;
+	
 	@PostMapping
-	public ResponseEntity<Permision> permissionRequest(@RequestBody Permision permision){
+	public ResponseEntity<PermissionResponse> permissionRequest(@RequestBody Permision permision){
 		
 		Resident resident = residentClient.getById(permision.getResident()).getBody();
+		PermissionResponse response = new PermissionResponse();
 		
 		if(resident == null) {
 			return ResponseEntity.badRequest().build();
+		}else {
+			response.setResident(resident);
 		}
 		
 		if(TypeRequestor.VISITOR.equals(permision.getType())) {
-			//chamara o microservice do visitor
+			Visitor visitor = visitorClient.getById(permision.getRequestor()).getBody();
+			response.setRequestor(visitor);
+			
 			
 		}else if(TypeRequestor.SERVICE_SUPPLIER.equals(permision.getType())) {
 			//chamara o microservice do Service SUpplier
+			response.setRequestor(null);
 		}
+
+		Permision permission = service.save(permision);
 		
+		response.setId(permission.getId());
+		response.setStatus(permission.getStatus());
+		response.setType(permission.getType());
+		response.setCreatedAt(permision.getCreatedAt());
 		
-		
-		return ResponseEntity.ok(service.save(permision));
+		return ResponseEntity.ok(response);
 	}
 	
 	
@@ -55,7 +73,7 @@ public class PermissionController {
 	public ResponseEntity<List<Permision>> getByRequestor(@PathVariable TypeRequestor typeRequestor, @PathVariable UUID id){
 	
 		if(TypeRequestor.VISITOR.equals(typeRequestor)) {
-			//chamara o microservice do visitor
+			Visitor visitor = visitorClient.getById(id).getBody();
 			
 		}else if(TypeRequestor.SERVICE_SUPPLIER.equals(typeRequestor)) {
 			//chamara o microservice do Service SUpplier

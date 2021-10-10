@@ -3,9 +3,11 @@ package com.condominium.visitor.models;
 import java.io.Serializable;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Visitor implements Serializable{
@@ -16,6 +18,7 @@ public class Visitor implements Serializable{
 	@GeneratedValue(generator = "UUID")
 	private UUID id;
 	
+	@OneToOne(cascade = CascadeType.ALL)
 	private Person person;
 
 	public UUID getId() {

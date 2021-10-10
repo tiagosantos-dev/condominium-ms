@@ -25,6 +25,10 @@ public class PermissionDAO {
 		return repository.findByRequestor(id);
 	}
 	
+	public List<Permision> getByResident(UUID id){
+		return repository.findByResident(id);
+	}
+	
 	
 	public Permision save(Permision permission){
 		return repository.save(permission);

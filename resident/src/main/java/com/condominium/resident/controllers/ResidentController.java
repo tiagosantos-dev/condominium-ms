@@ -31,7 +31,7 @@ public class ResidentController {
 	
 	
 	@PutMapping
-	public ResponseEntity<Resident> u(@RequestBody Resident resident){
+	public ResponseEntity<Resident> update(@RequestBody Resident resident){
 		Resident newResident = residentService.update(resident);
 		return ResponseEntity.ok(newResident);
 	}

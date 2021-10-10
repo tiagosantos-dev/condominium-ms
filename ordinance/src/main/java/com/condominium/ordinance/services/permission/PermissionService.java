@@ -33,5 +33,9 @@ public class PermissionService {
 	public Permision update(Permision permission){
 		return dao.update(permission);
 	}
+	
+	public List<Permision> getByResident(UUID id){
+		return dao.getByResident(id);
+	}
 
 }

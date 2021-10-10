@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.condominium.ordinance.clients.ResidentClient;
 import com.condominium.ordinance.models.Permision;
+import com.condominium.ordinance.models.Resident;
 import com.condominium.ordinance.models.TypeRequestor;
 import com.condominium.ordinance.services.permission.PermissionService;
 
@@ -24,8 +26,17 @@ public class PermissionController {
 	@Autowired
 	private PermissionService service;
 	
+	@Autowired
+	private ResidentClient residentClient;
+	
 	@PostMapping
 	public ResponseEntity<Permision> permissionRequest(@RequestBody Permision permision){
+		
+		Resident resident = residentClient.getById(permision.getResident()).getBody();
+		
+		if(resident == null) {
+			return ResponseEntity.badRequest().build();
+		}
 		
 		if(TypeRequestor.VISITOR.equals(permision.getType())) {
 			//chamara o microservice do visitor
@@ -33,6 +44,8 @@ public class PermissionController {
 		}else if(TypeRequestor.SERVICE_SUPPLIER.equals(permision.getType())) {
 			//chamara o microservice do Service SUpplier
 		}
+		
+		
 		
 		return ResponseEntity.ok(service.save(permision));
 	}

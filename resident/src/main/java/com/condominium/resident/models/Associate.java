@@ -16,7 +16,7 @@ public class Associate implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator = "UUID")
 	private UUID id;
 	
 	private Person person;

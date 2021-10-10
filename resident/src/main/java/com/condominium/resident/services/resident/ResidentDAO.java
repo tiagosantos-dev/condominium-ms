@@ -39,6 +39,9 @@ public class ResidentDAO  {
 		
 	}
 
+	public Resident update(Resident entity) {
+		return repository.save(entity);
+	}
 	
 
 }

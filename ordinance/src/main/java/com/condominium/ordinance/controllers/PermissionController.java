@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.condominium.ordinance.clients.ResidentClient;
 import com.condominium.ordinance.clients.VisitorClient;
 import com.condominium.ordinance.models.Permision;
+import com.condominium.ordinance.models.PermisionStatus;
 import com.condominium.ordinance.models.PermissionResponse;
 import com.condominium.ordinance.models.Resident;
 import com.condominium.ordinance.models.TypeRequestor;
@@ -38,7 +39,7 @@ public class PermissionController {
 	
 	@PostMapping
 	public ResponseEntity<PermissionResponse> permissionRequest(@RequestBody Permision permision){
-		
+		permision.setStatus(PermisionStatus.IN_PROGRESS);
 		Resident resident = residentClient.getById(permision.getResident()).getBody();
 		PermissionResponse response = new PermissionResponse();
 		
@@ -81,6 +82,7 @@ public class PermissionController {
 		
 		return ResponseEntity.ok(service.getByRequestor(id));
 	}
+	
 	
 	@GetMapping("/resident/{id}")
 	public ResponseEntity<List<Permision>> getByRequestor(@PathVariable UUID id){

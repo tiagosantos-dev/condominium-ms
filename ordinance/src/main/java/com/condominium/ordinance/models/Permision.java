@@ -40,6 +40,8 @@ public class Permision implements Serializable{
 	private LocalDateTime updateAt;
 	
 
+	
+
 	public UUID getId() {
 		return id;
 	}
@@ -95,10 +97,7 @@ public class Permision implements Serializable{
 	public void setType(TypeRequestor type) {
 		this.type = type;
 	}
-	
-	
-	
-	
+
 	
 
 }

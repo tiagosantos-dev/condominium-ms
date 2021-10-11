@@ -25,6 +25,8 @@ public class PermissionResponse {
 	private LocalDateTime updateAt;
 	
 
+	
+
 	public UUID getId() {
 		return id;
 	}
@@ -80,5 +82,7 @@ public class PermissionResponse {
 	public void setType(TypeRequestor type) {
 		this.type = type;
 	}
+
+
 	
 }

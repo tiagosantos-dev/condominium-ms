@@ -1,5 +1,6 @@
 package com.condominium.ordinance.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,11 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.condominium.ordinance.clients.ResidentClient;
+import com.condominium.ordinance.clients.ServiceSupplierClient;
 import com.condominium.ordinance.clients.VisitorClient;
 import com.condominium.ordinance.models.Permision;
 import com.condominium.ordinance.models.PermisionStatus;
 import com.condominium.ordinance.models.PermissionResponse;
+import com.condominium.ordinance.models.Requestor;
 import com.condominium.ordinance.models.Resident;
+import com.condominium.ordinance.models.ServiceSupplier;
 import com.condominium.ordinance.models.TypeRequestor;
 import com.condominium.ordinance.models.Visitor;
 import com.condominium.ordinance.services.permission.PermissionService;
@@ -32,6 +36,9 @@ public class PermissionController {
 	
 	@Autowired
 	private ResidentClient residentClient;
+	
+	@Autowired
+	private ServiceSupplierClient serviceSupplierClient;
 	
 	
 	@Autowired
@@ -55,8 +62,8 @@ public class PermissionController {
 			
 			
 		}else if(TypeRequestor.SERVICE_SUPPLIER.equals(permision.getType())) {
-			//chamara o microservice do Service SUpplier
-			response.setRequestor(null);
+			ServiceSupplier ss = serviceSupplierClient.getById(permision.getRequestor()).getBody();
+			response.setRequestor(ss);
 		}
 
 		Permision permission = service.save(permision);
@@ -71,16 +78,39 @@ public class PermissionController {
 	
 	
 	@GetMapping("/all/{typeRequestor}/{id}")
-	public ResponseEntity<List<Permision>> getByRequestor(@PathVariable TypeRequestor typeRequestor, @PathVariable UUID id){
+	public ResponseEntity<List<PermissionResponse>> getByRequestor(@PathVariable TypeRequestor typeRequestor, @PathVariable UUID id){
 	
+		List<PermissionResponse> list = new ArrayList<>();
+		Requestor requestor = null;
+
+		
 		if(TypeRequestor.VISITOR.equals(typeRequestor)) {
-			Visitor visitor = visitorClient.getById(id).getBody();
+			requestor = visitorClient.getById(id).getBody();
+
 			
 		}else if(TypeRequestor.SERVICE_SUPPLIER.equals(typeRequestor)) {
-			//chamara o microservice do Service SUpplier
+			 requestor = serviceSupplierClient.getById(id).getBody();
+			
 		}
 		
-		return ResponseEntity.ok(service.getByRequestor(id));
+		List<Permision> listPermission = service.getByRequestor(id);
+	
+		
+		for(Permision p : listPermission) {
+			PermissionResponse pr = new PermissionResponse();
+			pr.setId(p.getId());
+			pr.setRequestor(requestor);
+			pr.setResident(residentClient.getById(p.getResident()).getBody());
+			pr.setStatus(p.getStatus());
+			pr.setType(p.getType());
+			pr.setCreatedAt(p.getCreatedAt());
+			pr.setUpdateAt(p.getUpdateAt());
+			list.add(pr);
+		}
+		
+	
+		
+		return ResponseEntity.ok(list);
 	}
 	
 	
